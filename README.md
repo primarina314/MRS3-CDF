@@ -1,2 +1,2 @@
-# MRS3-CDF
-MRS3 for Creative Design Fair
+# MRS3
+Multiple Resolution Simultaneously Storing System

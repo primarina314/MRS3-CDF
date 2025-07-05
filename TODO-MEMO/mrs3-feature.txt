@@ -1,0 +1,26 @@
+
+다른 압축 방식과 완전히 독립적으로 적용가능
+
+다른 압축과 함께 적용한 경우의 압축률 예시
+
+보다 정확한 지점 찍거나 곡선 경계 표현하기 위해 타블렛 구비? - 60지원
+
+TODO: g타겟에 원래부터 한 점이 0 0 0 이 있는 경우 예외처리 -> DONE(binary png 로 해결)
+
+EDSR -> 초점 밖 흐릿한 부분에 대해서 원본과 거의 동일하게 복원. 해당 부분에서 특히 탁월한 것으로 보임 -> 좀더 알아보긴 해야함
+
+TODO: 모델 로딩 반복하지 말고 하나 모델에서 계속 작업되도록 설정 - 메인 함수 및 helper 이용해서(large img)
+
+TODO: gpu free memory 계산해서 처리가능한 픽셀 최대개수 설정
+
+TODO: packaging 과정 mrs3.py - compress 및 restore 함수에 넣어야 함
+
+TODO: web crawling 통한 추가 압축 과정도 (파라미터 옵션/선택사항으로) compress 에 넣어야 함. -> DONE
+
+TODO: yolo 등으로 사람/사물 등 자동 선택 옵션도 넣으면 좋을듯. VSR 의 경우에는 DEEPSORT 등으로 자동추적까지(영상이므로 이건 필수)
+
+TODO: EDSR 외의 다른 SR 모델도 활용 및 비교
+
+TODO: web crawling 다른 사이트도(https://www.iloveimg.com/ko/compress-image, https://imgpresso.co.kr/)
+ㄴ 어떤거로 할지 선택하는 옵션도
+

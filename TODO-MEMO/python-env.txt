@@ -1,0 +1,41 @@
+Python 인터프리터를 직접 선택해야 하며, 터미널에서 가상환경이 활성화된 상태로 실행해야 합니다.
+
+    VS Code 실행 후 작업 폴더를 엽니다.
+
+    Command Palette 열기:
+    Ctrl + Shift + P (Windows/Linux) 또는 Cmd + Shift + P (Mac)
+
+    Python: Select Interpreter 검색 및 실행
+
+    목록에서 원하는 Conda 가상환경 선택
+    (예: Python 3.9.13 ('myenv': conda))
+
+    ![인터프리터 선택](https://code.visualstudio.com/assets/docs/python/environments/interpreters-list.png Code 하단 상태 바에 표시됩니다.
+
+
+
+모듈 자동 리로드
+
+    %load_ext autoreload
+    %autoreload 2
+
+    %autoreload 0: 자동 리로드를 비활성화합니다.
+
+    %autoreload 1: %aimport로 명시적으로 지정한 모듈만 코드 실행 전에 리로드합니다.
+
+    %autoreload 2: 모든 모듈(단, %aimport로 제외된 모듈 제외)을 코드 실행 전에 리로드합니다. 가장 포괄적인 설정입니다.
+
+    성능 오버헤드:
+    %autoreload 2는 모든 모듈을 매번 확인하므로 약간의 성능 저하가 있을 수 있습니다.
+    따라서 개발이 완료된 후에는 비활성화(%autoreload 0)하거나, %autoreload 1과 %aimport로 필요한 모듈만 지정하는 것이 좋습니다.
+
+    제한점:
+
+    이미 인스턴스화된 객체(예: obj = MyClass())나 from module import func로 가져온 이름에는 반영되지 않을 수 있습니다.
+
+    복잡한 모듈 의존성 구조에서는 예상치 못한 동작이 발생할 수 있으니, 문제가 생기면 커널 재시작을 고려하세요.
+
+
+
+
+
