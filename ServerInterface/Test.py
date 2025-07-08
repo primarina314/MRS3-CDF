@@ -1,39 +1,55 @@
 import os
 import cv2
+import numpy as np
 
+# ---- 압축/복원 모듈 임포트 ----
 from ImgToPkg_Interface import compress_img_mult_tgs_server
+from PkgToImg_Interface import unpack_files, restore_img_mult_tgs
 
-print("== 테스트 코드 진입 ==")
-print("현재 작업 디렉토리:", os.getcwd())
+def main():
+    # 1. 입력 이미지 준비
+    img_path = 'test_image.jpg'
+    output_dir = 'test_output'
+    pkg_file = 'output.pkg'
+    unpack_dir = 'unpacked'
+    restored_dir = 'restored'
+    scaler = 2  # 업스케일/다운스케일 배율 (예: 2배)
+    interpolation = cv2.INTER_CUBIC  # 또는 cv2.INTER_LINEAR, INTER_AREA
 
-img_path = 'test_image.jpg'  # 테스트용 이미지 파일 경로
-output_path = 'test_output'  # 결과 저장 폴더
+    # 2. ROI 예시 (이미지 내 실제 좌표로 지정!)
+    roi_point_lists = [
+        [[0, 0], [10, 0], [10, 10], [0, 10]],    # 사각형 ROI 1개
+        [[20, 20], [30, 20], [30, 30]],                # 삼각형 ROI 1개
+    ]
 
-print("이미지 존재:", os.path.exists(img_path))
+    # 3. 압축(패키지) 생성
+    print("=== 패키지 생성(압축) ===")
+    pkg_path = compress_img_mult_tgs_server(
+        img_path=img_path,
+        output_path=output_dir,
+        scaler=scaler,
+        roi_point_lists=roi_point_lists,
+        pkg_filename=pkg_file,
+        interpolation=interpolation
+    )
+    print(f"PKG 파일 생성됨: {pkg_path}")
 
-img = cv2.imread(img_path)
-print("이미지 shape:", img.shape)
+    # 4. 패키지 해제
+    print("\n=== 패키지 해제 ===")
+    unpack_files(pkg_path, unpack_dir)
+    print(f"패키지 해제 완료: {unpack_dir}")
 
-roi_point_lists = [
-    [[0, 0], [10, 0], [10, 10], [0, 10]],    # 사각형 ROI 1개
-    [[20, 20], [30, 20], [30, 30]],                # 삼각형 ROI 1개
-]
+    # 5. 복원 이미지 생성
+    print("\n=== 복원 이미지 생성 ===")
+    restore_img_mult_tgs(
+        input_path=unpack_dir,
+        mrs3_mode=interpolation,
+        output_path=restored_dir
+    )
 
-for points in roi_point_lists:
-    print("ROI 좌표:", points)
-    for x, y in points:
-        if x < 0 or y < 0 or x >= img.shape[1] or y >= img.shape[0]:
-            print(f"경고: ({x},{y}) 좌표가 이미지 영역 밖에 있음!")
+    # 결과 이미지 경로
+    print(f"\n복원 결과 이미지는 {restored_dir}/restored.png 에 저장됩니다.")
 
-scaler = 2  # 2배 다운스케일
+if __name__ == '__main__':
+    main()
 
-pkg_path = compress_img_mult_tgs_server(
-    img_path=img_path,
-    output_path=output_path,
-    scaler=scaler,
-    roi_point_lists=roi_point_lists,
-    pkg_filename='output.pkg',       # 저장될 pkg 파일명
-    interpolation=3
-)
-
-print(f"패키지 저장 완료! 위치: {pkg_path}")
